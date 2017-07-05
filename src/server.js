@@ -3,7 +3,7 @@ import koaRouter from 'koa-router'
 import koaBody from 'koa-bodyparser'
 import { graphqlKoa, graphiqlKoa } from 'graphql-server-koa'
 
-// import schema from './data/schema'
+import schema from './graphql/schema'
 import './db'
 
 const PORT = 3000
@@ -14,12 +14,11 @@ const router = new koaRouter()
 app.use(koaBody())
 
 // Redirects GET and POST requests to GraphQL schema
-// router.get('/graphql', graphqlKoa({ schema: schema }))
-// router.post('/graphql', graphqlKoa({ schema: schema }))
-
+router.get('/graphql', graphqlKoa({ schema: schema }))
+router.post('/graphql', graphqlKoa({ schema: schema }))
 
 // Redirects to graphiql server for testing
-router.get('/graphiql', graphiqlKoa({endpointURL: '/graphql'}))
+router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }))
 
 // Setup Koa middlewares
 app.use(router.routes())
